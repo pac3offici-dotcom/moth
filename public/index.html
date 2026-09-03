@@ -1,0 +1,54 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F0EEE9" />
+    <meta name="description" content="Moth — Run AI models locally. A private developer runtime for working with local AI models." />
+    <meta name="keywords" content="AI, LLM, local, runtime, developer, models, GGUF, inference" />
+    <meta name="author" content="Moth" />
+    <meta property="og:title" content="Moth — Run AI models locally" />
+    <meta property="og:description" content="A simple, private developer runtime for working with local AI models." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moth.dev" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Moth — Run AI models locally" />
+    <meta name="twitter:description" content="A simple, private developer runtime for working with local AI models." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Moth — Run AI models locally</title>
+    <style>
+      /* Inline critical CSS for initial render */
+      body {
+        margin: 0;
+        background-color: #F0EEE9;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      #root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run Moth.</noscript>
+    <div id="root"></div>
+    <script>
+      // Handle page title updates based on navigation
+      // This will be enhanced by the React app
+      window.__MOTH_APP = {
+        setTitle: function(title) {
+          document.title = title ? `Moth — ${title}` : 'Moth — Run AI models locally';
+        }
+      };
+    </script>
+  </body>
+</html>
