@@ -356,19 +356,6 @@ const App: React.FC = () => {
           </div>
         </div>
       </section>
-
-      <section className="quick-start">
-        <h2 className="section-title">Quick Start</h2>
-        <div className="code-block">
-          <div className="code-header">
-            <span className="code-lang">PowerShell</span>
-            <button className="copy-btn" onClick={() => handleCopy('irm https://moth.dev/install.ps1 | iex')}>
-              Copy
-            </button>
-          </div>
-          <code className="code-content">irm https://moth.dev/install.ps1 | iex</code>
-        </div>
-      </section>
     </div>
   );
 
@@ -579,7 +566,7 @@ const App: React.FC = () => {
             <li><a href="#getting-started" className="docs-nav-link active">Getting Started</a></li>
             <li><a href="#installation" className="docs-nav-link">Installation</a></li>
             <li><a href="#models" className="docs-nav-link">Models</a></li>
-            <li><a href="#api" className="docs-nav-link">API</a></li>
+            <li><a href="#api" className="docs-nav-link">API Reference</a></li>
             <li><a href="#configuration" className="docs-nav-link">Configuration</a></li>
             <li><a href="#troubleshooting" className="docs-nav-link">Troubleshooting</a></li>
           </ul>
@@ -588,11 +575,12 @@ const App: React.FC = () => {
           <section id="getting-started" className="docs-section">
             <h1>Getting Started</h1>
             <p>Moth is a local AI runtime that lets you run large language models on your own hardware. No cloud dependencies, no API keys, no data leaving your machine.</p>
+            
             <h2>What is Moth?</h2>
             <p>Moth is a lightweight backend server that:</p>
             <ul>
               <li>Runs GGUF-format language models locally</li>
-              <li>Exposes an OpenAI-compatible chat API</li>
+              <li>Exposes multiple API formats (Native, OpenAI, Anthropic, Ollama)</li>
               <li>Supports artifact generation (flashcards, quizzes, timelines, etc.)</li>
               <li>Includes a model discovery and download system</li>
               <li>Works with GPU acceleration when available</li>
@@ -605,15 +593,7 @@ const App: React.FC = () => {
           <section id="installation" className="docs-section">
             <h2>Installation</h2>
             <h3>Windows</h3>
-            <p>Download the installer and run it:</p>
-            <div className="code-block compact">
-              <div className="code-header">
-                <span className="code-lang">PowerShell</span>
-                <button className="copy-btn" onClick={() => handleCopy('irm https://moth.dev/install.ps1 | iex')}>Copy</button>
-              </div>
-              <code className="code-content">irm https://moth.dev/install.ps1 | iex</code>
-            </div>
-            <p>Or download the installer directly from the <a href="#home" onClick={() => setCurrentView('home')}>home page</a>.</p>
+            <p>Download the installer from the <a href="#home" onClick={() => setCurrentView('home')}>home page</a> and run it.</p>
 
             <h3>Configuration</h3>
             <p>Moth uses environment variables for configuration:</p>
@@ -653,29 +633,181 @@ const App: React.FC = () => {
           </section>
 
           <section id="api" className="docs-section">
-            <h2>API</h2>
-            <p>Moth exposes an OpenAI-compatible chat API on port 8000 (configurable).</p>
+            <h2>API Reference</h2>
+            <p>Moth exposes multiple API formats for maximum compatibility with existing tools and libraries.</p>
 
-            <h3>Chat Completions</h3>
+            <div className="docs-callout">
+              <p><strong>All endpoints:</strong> <code>http://localhost:8000</code> (configurable via <code>MOTH_HOST</code> and <code>MOTH_PORT</code>)</p>
+            </div>
+
+            <h3>Working Endpoints</h3>
+            <table className="docs-table">
+              <thead>
+                <tr>
+                  <th>Endpoint</th>
+                  <th>Format</th>
+                  <th>Use Case</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>/api/chat</code></td>
+                  <td>Native Moth</td>
+                  <td>Primary interface for Moth UI &amp; scripts</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/v1/messages</code></td>
+                  <td>Anthropic</td>
+                  <td>For Anthropic SDKs &amp; Claude-compatible tools</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/chat</code> (with <code>model</code> field)</td>
+                  <td>Ollama</td>
+                  <td>For Ollama-compatible clients</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/models</code></td>
+                  <td>Native</td>
+                  <td>List installed models</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/models/load</code></td>
+                  <td>Native</td>
+                  <td>Load a model</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/health</code></td>
+                  <td>Native</td>
+                  <td>Health check</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/stats</code></td>
+                  <td>Native</td>
+                  <td>Server statistics</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/system/info</code></td>
+                  <td>Native</td>
+                  <td>System information</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/network/status</code></td>
+                  <td>Native</td>
+                  <td>Network access status</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+                <tr>
+                  <td><code>/api/network/enable</code></td>
+                  <td>Native</td>
+                  <td>Enable LAN access</td>
+                  <td><span className="status-badge success">✅ Working</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3>Known Issue: OpenAI-Compatible Endpoint</h3>
+            <div className="docs-warning">
+              <p><strong>Endpoint:</strong> <code>/v1/chat/completions</code></p>
+              <p><strong>Issue:</strong> Validation error with <code>usage.prompt_tokens_details</code> field</p>
+              <div className="code-block compact">
+                <div className="code-header">
+                  <span className="code-lang">Error</span>
+                </div>
+                <code className="code-content">{`{
+  "error": {
+    "message": "1 validation error for ChatCompletionResponse\\nusage.prompt_tokens_details\\nInput should be a valid integer",
+    "type": "server_error"
+  }
+}`}</code>
+              </div>
+              <p><strong>Workaround:</strong> Use <code>/api/chat</code> instead – it accepts the same OpenAI-style messages format without the validation bug.</p>
+              <p><strong>Fix planned:</strong> Will be resolved in a future update (the response schema needs to accept the nested <code>prompt_tokens_details</code> object that llama.cpp returns).</p>
+            </div>
+
+            <h3>Quick Reference: API Usage Examples</h3>
+
+            <h4>1. Native Moth API (Recommended)</h4>
             <div className="code-block compact">
               <div className="code-header">
                 <span className="code-lang">HTTP</span>
-                <button className="copy-btn" onClick={() => handleCopy(`POST /v1/chat/completions\n{\n  "model": "model.gguf",\n  "messages": [{"role": "user", "content": "Hello"}],\n  "max_tokens": 1536,\n  "temperature": 0.7,\n  "stream": false\n}`)}>Copy</button>
+                <button className="copy-btn" onClick={() => handleCopy(`curl -X POST http://localhost:8000/api/chat \\\n  -H "Content-Type: application/json" \\\n  -d '{"messages": [{"role": "user", "content": "Hello"}], "stream": false}'`)}>Copy</button>
               </div>
-              <code className="code-content">{`POST /v1/chat/completions\n{\n  "model": "model.gguf",\n  "messages": [{"role": "user", "content": "Hello"}],\n  "max_tokens": 1536,\n  "temperature": 0.7,\n  "stream": false\n}`}</code>
+              <code className="code-content">{`curl -X POST http://localhost:8000/api/chat \\\n  -H "Content-Type: application/json" \\\n  -d '{"messages": [{"role": "user", "content": "Hello"}], "stream": false}'`}</code>
             </div>
 
-            <h3>List Models</h3>
+            <h4>2. Anthropic-Compatible API</h4>
             <div className="code-block compact">
               <div className="code-header">
                 <span className="code-lang">HTTP</span>
-                <button className="copy-btn" onClick={() => handleCopy('GET /v1/models')}>Copy</button>
+                <button className="copy-btn" onClick={() => handleCopy(`curl -X POST http://localhost:8000/v1/messages \\\n  -H "Content-Type: application/json" \\\n  -d '{"model": "gemma-2-2b-it-q4_k_m.gguf", "messages": [{"role": "user", "content": "Hello"}], "max_tokens": 100}'`)}>Copy</button>
               </div>
-              <code className="code-content">GET /v1/models</code>
+              <code className="code-content">{`curl -X POST http://localhost:8000/v1/messages \\\n  -H "Content-Type: application/json" \\\n  -d '{"model": "gemma-2-2b-it-q4_k_m.gguf", "messages": [{"role": "user", "content": "Hello"}], "max_tokens": 100}'`}</code>
             </div>
 
-            <h3>API Reference</h3>
-            <p>Full API documentation is available at <code>/api/docs/api-reference</code> and <code>/api/docs/quickstart</code>.</p>
+            <h4>3. Ollama-Compatible API</h4>
+            <div className="code-block compact">
+              <div className="code-header">
+                <span className="code-lang">HTTP</span>
+                <button className="copy-btn" onClick={() => handleCopy(`curl -X POST http://localhost:8000/api/chat \\\n  -H "Content-Type: application/json" \\\n  -d '{"model": "gemma-2-2b-it-q4_k_m.gguf", "messages": [{"role": "user", "content": "Hello"}], "stream": false}'`)}>Copy</button>
+              </div>
+              <code className="code-content">{`curl -X POST http://localhost:8000/api/chat \\\n  -H "Content-Type: application/json" \\\n  -d '{"model": "gemma-2-2b-it-q4_k_m.gguf", "messages": [{"role": "user", "content": "Hello"}], "stream": false}'`}</code>
+            </div>
+
+            <h4>4. Streaming Response</h4>
+            <div className="code-block compact">
+              <div className="code-header">
+                <span className="code-lang">HTTP</span>
+                <button className="copy-btn" onClick={() => handleCopy(`curl -X POST http://localhost:8000/api/chat \\\n  -H "Content-Type: application/json" \\\n  -d '{"messages": [{"role": "user", "content": "Tell me a joke"}], "stream": true}'`)}>Copy</button>
+              </div>
+              <code className="code-content">{`curl -X POST http://localhost:8000/api/chat \\\n  -H "Content-Type: application/json" \\\n  -d '{"messages": [{"role": "user", "content": "Tell me a joke"}], "stream": true}'`}</code>
+            </div>
+
+            <h3>Python SDK Example</h3>
+            <div className="code-block compact">
+              <div className="code-header">
+                <span className="code-lang">Python</span>
+                <button className="copy-btn" onClick={() => handleCopy(`import requests\n\n# Using the native API\nresponse = requests.post(\n    "http://localhost:8000/api/chat",\n    json={\n        "messages": [{"role": "user", "content": "What is 2+2?"}],\n        "stream": False\n    }\n)\nprint(response.json()["message"]["content"])\n\n# Streaming\nresponse = requests.post(\n    "http://localhost:8000/api/chat",\n    json={\n        "messages": [{"role": "user", "content": "Tell me a story"}],\n        "stream": True\n    },\n    stream=True\n)\n\nfor line in response.iter_lines():\n    if line:\n        import json\n        data = json.loads(line)\n        if "token" in data:\n            print(data["token"], end="")`)}>Copy</button>
+              </div>
+              <code className="code-content">{`import requests\n\n# Using the native API\nresponse = requests.post(\n    "http://localhost:8000/api/chat",\n    json={\n        "messages": [{"role": "user", "content": "What is 2+2?"}],\n        "stream": False\n    }\n)\nprint(response.json()["message"]["content"])\n\n# Streaming\nresponse = requests.post(\n    "http://localhost:8000/api/chat",\n    json={\n        "messages": [{"role": "user", "content": "Tell me a story"}],\n        "stream": True\n    },\n    stream=True\n)\n\nfor line in response.iter_lines():\n    if line:\n        import json\n        data = json.loads(line)\n        if "token" in data:\n            print(data["token"], end="")`}</code>
+            </div>
+
+            <h3>JavaScript/Node.js Example</h3>
+            <div className="code-block compact">
+              <div className="code-header">
+                <span className="code-lang">JavaScript</span>
+                <button className="copy-btn" onClick={() => handleCopy(`// Non-streaming\nconst response = await fetch('http://localhost:8000/api/chat', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({\n    messages: [{ role: 'user', content: 'Hello' }],\n    stream: false\n  })\n});\nconst data = await response.json();\nconsole.log(data.message.content);\n\n// Streaming\nconst response = await fetch('http://localhost:8000/api/chat', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({\n    messages: [{ role: 'user', content: 'Tell me a joke' }],\n    stream: true\n  })\n});\n\nconst reader = response.body.getReader();\nconst decoder = new TextDecoder();\nwhile (true) {\n  const { value, done } = await reader.read();\n  if (done) break;\n  const chunk = decoder.decode(value);\n  const lines = chunk.split('\\n').filter(line => line.trim());\n  for (const line of lines) {\n    const data = JSON.parse(line);\n    if (data.token) process.stdout.write(data.token);\n  }\n}`)}>Copy</button>
+              </div>
+              <code className="code-content">{`// Non-streaming\nconst response = await fetch('http://localhost:8000/api/chat', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({\n    messages: [{ role: 'user', content: 'Hello' }],\n    stream: false\n  })\n});\nconst data = await response.json();\nconsole.log(data.message.content);\n\n// Streaming\nconst response = await fetch('http://localhost:8000/api/chat', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({\n    messages: [{ role: 'user', content: 'Tell me a joke' }],\n    stream: true\n  })\n});\n\nconst reader = response.body.getReader();\nconst decoder = new TextDecoder();\nwhile (true) {\n  const { value, done } = await reader.read();\n  if (done) break;\n  const chunk = decoder.decode(value);\n  const lines = chunk.split('\\n').filter(line => line.trim());\n  for (const line of lines) {\n    const data = JSON.parse(line);\n    if (data.token) process.stdout.write(data.token);\n  }\n}`}</code>
+            </div>
+
+            <h3>API Authentication (Optional)</h3>
+            <p>If you set <code>MOTH_API_KEY</code> when starting the server:</p>
+            <div className="code-block compact">
+              <div className="code-header">
+                <span className="code-lang">HTTP</span>
+                <button className="copy-btn" onClick={() => handleCopy(`curl -X POST http://localhost:8000/api/chat \\\n  -H "Authorization: Bearer your-secret-key" \\\n  -H "Content-Type: application/json" \\\n  -d '{"messages": [{"role": "user", "content": "Hello"}]}'`)}>Copy</button>
+              </div>
+              <code className="code-content">{`curl -X POST http://localhost:8000/api/chat \\\n  -H "Authorization: Bearer your-secret-key" \\\n  -H "Content-Type: application/json" \\\n  -d '{"messages": [{"role": "user", "content": "Hello"}]}'`}</code>
+            </div>
+
+            <h3>Network Access</h3>
+            <p>Enable network access to use Moth from other devices on your LAN:</p>
+            <div className="code-block compact">
+              <div className="code-header">
+                <span className="code-lang">HTTP</span>
+                <button className="copy-btn" onClick={() => handleCopy(`# Enable\ncurl -X POST http://localhost:8000/api/network/enable\n\n# Check status\ncurl http://localhost:8000/api/network/status\n\n# Get QR code (downloads a PNG)\ncurl http://localhost:8000/api/network/qr --output qr.png`)}>Copy</button>
+              </div>
+              <code className="code-content">{`# Enable\ncurl -X POST http://localhost:8000/api/network/enable\n\n# Check status\ncurl http://localhost:8000/api/network/status\n\n# Get QR code (downloads a PNG)\ncurl http://localhost:8000/api/network/qr --output qr.png`}</code>
+            </div>
           </section>
 
           <section id="configuration" className="docs-section">
@@ -693,6 +825,7 @@ const App: React.FC = () => {
                 <tr><td><code>MOTH_LLAMA_HOST</code></td><td>127.0.0.1</td><td>llama-server host</td></tr>
                 <tr><td><code>MOTH_LLAMA_PORT</code></td><td>8080</td><td>llama-server port</td></tr>
                 <tr><td><code>MOTH_NETWORK_ACCESS</code></td><td>0</td><td>Enable LAN access (1/true/yes/on)</td></tr>
+                <tr><td><code>MOTH_HF_TOKEN</code></td><td>(none)</td><td>Hugging Face token for gated models</td></tr>
               </tbody>
             </table>
 
@@ -717,6 +850,8 @@ const App: React.FC = () => {
               <li><strong>Port already in use:</strong> Change <code>MOTH_PORT</code> or <code>MOTH_LLAMA_PORT</code></li>
               <li><strong>Model not found:</strong> Ensure models are in <code>MOTH_MODEL_DIR</code></li>
               <li><strong>Permission denied:</strong> Check that the llama-server binary is executable</li>
+              <li><strong>409 Conflict:</strong> The model is busy generating a response — wait and try again</li>
+              <li><strong>Gated model access:</strong> Set <code>MOTH_HF_TOKEN</code> with a Hugging Face access token</li>
             </ul>
           </section>
         </main>
